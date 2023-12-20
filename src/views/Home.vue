@@ -12,6 +12,15 @@
               <transition> <!--possui 6 classes css para controlar os estados do evento na animação-->   
                 <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
               </transition>
+
+              <div class="evolucoes">
+                <transition> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+                <img src="@/assets/imgs/pokemons/003.png" v-show="exibir">
+                </transition>
+                <transition> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+                  <img src="@/assets/imgs/pokemons/002.png" v-show="exibir">
+                </transition>
+              </div>
             </div>
           </div>
 
@@ -91,7 +100,7 @@ body {
 
 <style scoped>
 
-.v-enter-from {
+/* .v-enter-from {
   opacity: 0;
 }
 
@@ -101,9 +110,23 @@ body {
 
 .v-enter-to {
   opacity: 1;
+} */
+
+.v-enter-from {
+  transform: translateX(-150px);
+  opacity: 0;
 }
 
-.v-leave-from {
+.v-enter-active {
+  transition: all 0.5s;
+}
+
+.v-enter-to {
+  transform: translateX(0px);
+  opacity: 1;
+}
+
+/* .v-leave-from {
   opacity: 1;
 }
 
@@ -113,6 +136,20 @@ body {
 
 .v-leave-to {
   opacity: 0;
+} */
+
+.v-leave-from {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.v-leave-active {
+  transition: all 0.5s;
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateX(150px);
 }
 
 .pokedex {
@@ -211,6 +248,20 @@ body {
 
 .detalhes {
   margin: 20px 30px 20px 30px;
+}
+
+.evolucoes {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 70px;
+}
+
+.evolucoes img {
+  cursor: pointer;
+  max-width: 100%;
+  max-height: 100%;
+  float: right;
 }
 
 </style>
