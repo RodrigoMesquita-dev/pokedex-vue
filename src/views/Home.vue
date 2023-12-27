@@ -9,15 +9,15 @@
 
           <div class="card-body bg-pokebola bg-normal">
             <div class="pokemon">
-              <transition> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+              <transition name="slide"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
                 <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
               </transition>
 
               <div class="evolucoes">
-                <transition> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+                <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
                 <img src="@/assets/imgs/pokemons/003.png" v-show="exibir">
                 </transition>
-                <transition> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+                <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
                   <img src="@/assets/imgs/pokemons/002.png" v-show="exibir">
                 </transition>
               </div>
@@ -112,16 +112,30 @@ body {
   opacity: 1;
 } */
 
-.v-enter-from {
+.slide-enter-from {
   transform: translateX(-150px);
   opacity: 0;
 }
 
-.v-enter-active {
+.slide-enter-active {
   transition: all 0.5s;
 }
 
-.v-enter-to {
+.slide-enter-to {
+  transform: translateX(0px);
+  opacity: 1;
+}
+
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter-to {
   transform: translateX(0px);
   opacity: 1;
 }
@@ -138,18 +152,30 @@ body {
   opacity: 0;
 } */
 
-.v-leave-from {
+.slide-leave-from {
   opacity: 1;
   transform: translateX(0px);
 }
 
-.v-leave-active {
+.slide-leave-active {
   transition: all 0.5s;
 }
 
-.v-leave-to {
+.slide-leave-to {
   opacity: 0;
   transform: translateX(150px);
+}
+
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 
 .pokedex {
