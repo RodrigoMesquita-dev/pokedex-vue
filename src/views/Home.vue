@@ -9,10 +9,19 @@
 
           <div class="card-body bg-pokebola bg-normal">
             <div class="pokemon">
-              <transition name="slide"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+              <!-- <transition name="pulo" :duration="{ enter: 500, leave: 1000 }"> 
+                <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
+              </transition> --> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+              <transition 
+                enter-from-class="entrada-estado-inicial"
+                enter-active-class="entrada-estado-ativo"
+                enter-to-class="entrada-estado-final"
+                leave-from-class="saida-estado-inicial"
+                leave-active-class="saida-estado-ativo"
+                leave-to-class="saida-estado-final"
+              >
                 <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
               </transition>
-
               <div class="evolucoes">
                 <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
                 <img src="@/assets/imgs/pokemons/003.png" v-show="exibir">
@@ -100,83 +109,7 @@ body {
 
 <style scoped>
 
-/* .v-enter-from {
-  opacity: 0;
-}
-
-.v-enter-active {
-  transition: opacity 1s;
-}
-
-.v-enter-to {
-  opacity: 1;
-} */
-
-.slide-enter-from {
-  transform: translateX(-150px);
-  opacity: 0;
-}
-
-.slide-enter-active {
-  transition: all 0.5s;
-}
-
-.slide-enter-to {
-  transform: translateX(0px);
-  opacity: 1;
-}
-
-
-.fade-enter-from {
-  opacity: 0;
-}
-
-.fade-enter-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter-to {
-  transform: translateX(0px);
-  opacity: 1;
-}
-
-/* .v-leave-from {
-  opacity: 1;
-}
-
-.v-leave-active {
-  transition: opacity 1s;
-}
-
-.v-leave-to {
-  opacity: 0;
-} */
-
-.slide-leave-from {
-  opacity: 1;
-  transform: translateX(0px);
-}
-
-.slide-leave-active {
-  transition: all 0.5s;
-}
-
-.slide-leave-to {
-  opacity: 0;
-  transform: translateX(150px);
-}
-
-.fade-leave-from {
-  opacity: 1;
-}
-
-.fade-leave-active {
-  transition: opacity 1s;
-}
-
-.fade-leave-to {
-  opacity: 0;
-}
+@import '~@/assets/css/animacoes.css';
 
 .pokedex {
   padding: 20px;
