@@ -12,14 +12,20 @@
               <!-- <transition name="pulo" :duration="{ enter: 500, leave: 1000 }"> 
                 <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
               </transition> --> <!--possui 6 classes css para controlar os estados do evento na animação-->   
-              <transition 
-                enter-from-class="entrada-estado-inicial"
-                enter-active-class="entrada-estado-ativo"
-                enter-to-class="entrada-estado-final"
-                leave-from-class="saida-estado-inicial"
-                leave-active-class="saida-estado-ativo"
-                leave-to-class="saida-estado-final"
-              >
+              <transition
+                @before-enter="antesDaEntrada"
+                @enter="duranteAEntrada"
+                @after-enter="aposDaEntrada"
+                @enter-canceled="quandoEntradaCancelada"
+
+                @before-leave="antesDaSaida"
+                @leave="duranteASaida"
+                @after-leave="aposDaSaida"
+                @leave-canceled="quandoSaidaCancelada"
+                
+                enter-active-class="animate__animated animate__bounce"
+                leave-active-class="animate__animated animate__bounce" 
+              > <!-- biblioteca animate.style -->
                 <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
               </transition>
               <div class="evolucoes">
@@ -97,7 +103,46 @@ export default {
   name: 'Home',
   data: () => ({
     exibir: false,
-  })
+  }), 
+  methods: {
+    antesDaEntrada(el) {
+      console.log('Antes da Entrada', el);
+    },
+
+    // duranteAEntrada(el, done) {
+    duranteAEntrada(el) {
+      console.log('durante a entrada', el);
+
+      // done()
+    },
+
+    aposDaEntrada(el) {
+      console.log('apos a entrada', el);
+    },
+
+    quandoEntradaCancelada(el) {
+      console.log('entrada cancelada', el);
+    },
+
+    antesDaSaida(el) {
+      console.log('Antes da Saida', el);
+    },
+
+    // duranteASaida(el, done) {
+    duranteASaida(el) {
+      console.log('durante a Saida', el);
+
+      // done()
+    },
+
+    aposDaSaida(el) {
+      console.log('apos a Saida', el);
+    },
+
+    quandoSaidaCancelada(el) {
+      console.log('Saida cancelada', el);
+    }
+  }
 }
 </script>
 
