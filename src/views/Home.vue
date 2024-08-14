@@ -13,15 +13,8 @@
                 <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
               </transition> --> <!--possui 6 classes css para controlar os estados do evento na animação-->   
               <transition
-                @before-enter="antesDaEntrada"
-                @enter="duranteAEntrada"
-                @after-enter="aposDaEntrada"
-                @enter-canceled="quandoEntradaCancelada"
-
-                @before-leave="antesDaSaida"
-                @leave="duranteASaida"
-                @after-leave="aposDaSaida"
-                @leave-canceled="quandoSaidaCancelada"
+                @after-enter="exibirEvolucoesTransicao"
+                @before-leave="ocultarEvolucoesTransicao"
                 
                 enter-active-class="animate__animated animate__bounce"
                 leave-active-class="animate__animated animate__bounce" 
@@ -30,10 +23,10 @@
               </transition>
               <div class="evolucoes">
                 <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
-                <img src="@/assets/imgs/pokemons/003.png" v-show="exibir">
+                <img src="@/assets/imgs/pokemons/003.png" v-show="exibirEvolucoes">
                 </transition>
                 <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
-                  <img src="@/assets/imgs/pokemons/002.png" v-show="exibir">
+                  <img src="@/assets/imgs/pokemons/002.png" v-show="exibirEvolucoes">
                 </transition>
               </div>
             </div>
@@ -80,11 +73,16 @@
           <div class="pokedex-catalogo">
 
             <!-- início listagem dinâmica -->
-            <div class="cartao-pokemon bg-grama" @click="exibir = !exibir">
-              <h1>1 Bulbasaur</h1>
-              <span>grama</span>
+            <div
+              v-for="p in pokemons"
+              :key="p.id"
+              :class="`cartao-pokemon bg-${p.tipo}`"
+              @click="exibir = !exibir"
+            >
+              <h1>{{ p.id }} {{ p.nome }}</h1>
+              <span>{{ p.tipo }}</span>
               <div class="cartao-pokemon-img">
-                <img src="@/assets/imgs/pokemons/001.png">
+                <img :src="require(`@/assets/imgs/pokemons/${p.imagem}`)">
               </div>
             </div>
             <!-- fim listagem dinâmica -->
@@ -103,45 +101,35 @@ export default {
   name: 'Home',
   data: () => ({
     exibir: false,
+    exibirEvolucoes: false,
+    pokemons: [
+      { id: 1, nome: 'Bulbasaur', tipo: 'grama', imagem: '001.png', evolucoes: [2,3] },
+      { id: 2, nome: 'Ivysaur', tipo: 'grama', imagem: '002.png', evolucoes: [3] },
+      { id: 3, nome: 'Venusaur', tipo: 'grama', imagem: '003.png', evolucoes: [] },
+      { id: 4, nome: 'Charmander', tipo: 'fogo', imagem: '004.png', evolucoes: [5, 6] },
+      { id: 5, nome: 'Charmeleon', tipo: 'fogo', imagem: '005.png', evolucoes: [6] },
+      { id: 6, nome: 'Charizard', tipo: 'fogo', imagem: '006.png', evolucoes: [] },
+      { id: 7, nome: 'Squirtle', tipo: 'agua', imagem: '007.png', evolucoes: [8,9] },
+      { id: 8, nome: 'Wartortle', tipo: 'agua', imagem: '008.png', evolucoes: [9] },
+      { id: 9, nome: 'Blastoise', tipo: 'agua', imagem: '009.png', evolucoes: [] },
+      { id: 10, nome: 'Caterpie', tipo: 'inseto', imagem: '010.png', evolucoes: [11,12] },
+      { id: 11, nome: 'Metapod', tipo: 'inseto', imagem: '011.png', evolucoes: [12] },
+      { id: 12, nome: 'Butterfree', tipo: 'inseto', imagem: '012.png', evolucoes: [] },
+      { id: 13, nome: 'Weedle', tipo: 'inseto', imagem: '013.png', evolucoes: [14,15] },
+      { id: 14, nome: 'Kakuna', tipo: 'inseto', imagem: '014.png', evolucoes: [15] },
+      { id: 15, nome: 'Beedrill', tipo: 'inseto', imagem: '015.png', evolucoes: [] },
+      { id: 16, nome: 'Pidgey', tipo: 'normal', imagem: '016.png', evolucoes: [17,18] },
+      { id: 17, nome: 'Pidgeotto', tipo: 'normal', imagem: '017.png', evolucoes: [18] },
+      { id: 18, nome: 'Pidgeot', tipo: 'normal', imagem: '018.png', evolucoes: [] }
+    ]
   }), 
   methods: {
-    antesDaEntrada(el) {
-      console.log('Antes da Entrada', el);
+    exibirEvolucoesTransicao() {
+      this.exibirEvolucoes = true;
     },
-
-    // duranteAEntrada(el, done) {
-    duranteAEntrada(el) {
-      console.log('durante a entrada', el);
-
-      // done()
+    ocultarEvolucoesTransicao() {
+      this.exibirEvolucoes = false;
     },
-
-    aposDaEntrada(el) {
-      console.log('apos a entrada', el);
-    },
-
-    quandoEntradaCancelada(el) {
-      console.log('entrada cancelada', el);
-    },
-
-    antesDaSaida(el) {
-      console.log('Antes da Saida', el);
-    },
-
-    // duranteASaida(el, done) {
-    duranteASaida(el) {
-      console.log('durante a Saida', el);
-
-      // done()
-    },
-
-    aposDaSaida(el) {
-      console.log('apos a Saida', el);
-    },
-
-    quandoSaidaCancelada(el) {
-      console.log('Saida cancelada', el);
-    }
   }
 }
 </script>
