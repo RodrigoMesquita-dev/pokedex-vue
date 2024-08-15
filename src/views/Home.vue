@@ -19,14 +19,15 @@
                 enter-active-class="animate__animated animate__bounce"
                 leave-active-class="animate__animated animate__bounce" 
               > <!-- biblioteca animate.style -->
-                <img src="@/assets/imgs/pokemons/001.png" v-show="exibir">
+                <img :src="pokemon.imagem ? require(`@/assets/imgs/pokemons/${pokemon.imagem}`) : null" v-show="exibir">
+                <!-- <img :src="null" v-show="exibir"> -->
+                <!-- <img src="@/assets/imgs/pokemons/001.png" v-show="exibir"> -->
               </transition>
               <div class="evolucoes">
-                <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
-                <img src="@/assets/imgs/pokemons/003.png" v-show="exibirEvolucoes">
-                </transition>
-                <transition name="fade"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
-                  <img src="@/assets/imgs/pokemons/002.png" v-show="exibirEvolucoes">
+                <transition name="fade" v-for="e in pokemon.evolucoes" :key="e"> <!--possui 6 classes css para controlar os estados do evento na animação-->   
+                <img
+                  :src="e && require(`@/assets/imgs/pokemons/${e.toString().padStart(3, '0')}.png`)"
+                  v-show="exibirEvolucoes">
                 </transition>
               </div>
             </div>
@@ -36,10 +37,32 @@
          
           <nav class="nav nav-pills nav-fill">
             <!-- menu de navegação -->
+            <router-link
+              class="nav-item nav-link text-white"
+              :to="{ path: '/sobre' }"
+              exact-active-class="active"
+            >
+            Sobre
+            </router-link>
+            <router-link
+              class="nav-item nav-link text-white"
+              :to="{ path: '/status' }"
+              exact-active-class="active"
+            >
+            Status
+            </router-link>
+            <router-link
+              class="nav-item nav-link text-white"
+              :to="{ path: '/habilidades' }"
+              exact-active-class="active"
+            >
+            Habilidades
+            </router-link>
           </nav>
 
           <div class="detalhes">
             <!-- exibe dados de acordo com o menu de navegação -->
+            <router-view></router-view>
           </div>
 
           </div>
@@ -77,7 +100,7 @@
               v-for="p in pokemons"
               :key="p.id"
               :class="`cartao-pokemon bg-${p.tipo}`"
-              @click="exibir = !exibir"
+              @click="analisarPokemon(p)"
             >
               <h1>{{ p.id }} {{ p.nome }}</h1>
               <span>{{ p.tipo }}</span>
@@ -102,6 +125,7 @@ export default {
   data: () => ({
     exibir: false,
     exibirEvolucoes: false,
+    pokemon: {},
     pokemons: [
       { id: 1, nome: 'Bulbasaur', tipo: 'grama', imagem: '001.png', evolucoes: [2,3] },
       { id: 2, nome: 'Ivysaur', tipo: 'grama', imagem: '002.png', evolucoes: [3] },
@@ -130,6 +154,14 @@ export default {
     ocultarEvolucoesTransicao() {
       this.exibirEvolucoes = false;
     },
+    analisarPokemon(p) {
+      if (!(this.pokemon && (this.pokemon.id != p.id) && (this.exibir))) {
+        this.exibir = !this.exibir;
+        this.exibirEvolucoes = !this.exibirEvolucoes;
+      }
+        this.pokemon = p;
+      // this.pokemon = p;
+    }
   }
 }
 </script>
@@ -253,7 +285,6 @@ body {
   cursor: pointer;
   max-width: 100%;
   max-height: 100%;
-  float: right;
 }
 
 </style>
