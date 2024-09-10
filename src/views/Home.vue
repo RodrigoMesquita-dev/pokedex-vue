@@ -63,7 +63,12 @@
           <div class="detalhes">
             <!-- exibe dados de acordo com o menu de navegação -->
             
-              <router-view v-slot="{ Component }" :pokemon="pokemon" @adicionarHabilidade="adicionarHabilidade" >
+              <router-view 
+                v-slot="{ Component }"
+                :pokemon="pokemon"
+                @adicionarHabilidade="adicionarHabilidade"
+                @removerHabilidade="removerHabilidade"
+              >
                 <transition
                   enter-active-class="animate__animated animate__zoomInDown"
                 >
@@ -173,6 +178,11 @@ export default {
     },
     adicionarHabilidade(habilidade) {
       this.pokemon.habilidades.push(habilidade);
+    },
+    removerHabilidade(indice) {
+      if(this.pokemon.habilidades[indice]){
+        this.pokemon.habilidades.splice(indice, 1)
+      }
     }
   }
 }
