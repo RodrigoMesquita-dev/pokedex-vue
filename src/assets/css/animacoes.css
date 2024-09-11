@@ -180,9 +180,14 @@
 
 .lista-leave-active {
   transition: all 0.5s;
+  position: absolute;
 }
 
 .lista-leave-to {
   opacity: 0;
   transform: translateX(-150px);
+}
+
+.lista-move {
+  transition: all 1s;
 }
