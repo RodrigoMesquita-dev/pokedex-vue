@@ -92,10 +92,12 @@
 
         <div class="row">
           <div class="col">
-            <select class="form-select">
-              <option>Id crescente</option>
-              <option>Id decrescrente</option>
-              <option>De A - Z</option>
+            <select class="form-select" v-model="ordenacao">
+              <option value="" disabled>Ordenar Pokémon</option>
+              <option value="1" >Id crescente</option>
+              <option value="2" >Id decrescrente</option>
+              <option value="3" >De A - Z</option>
+              <option value="4" >De Z - A</option>
             </select>
           </div>
         
@@ -144,8 +146,41 @@ export default {
     exibir: false,
     exibirEvolucoes: false,
     pokemon: {},
-    pokemons: []
-  }), 
+    pokemons: [],
+    ordenacao: '',
+  }),
+  watch: {
+    ordenacao(valorNovo) {
+      if (valorNovo == 1) {
+        this.pokemons.sort((prox, atual) => {
+          if (Number(atual.id) < Number(prox.id)) return 1;
+          if (Number(atual.id) > Number(prox.id)) return -1;
+          return 0
+        });
+      }
+      if (valorNovo == 2) {
+        this.pokemons.sort((prox, atual) => {
+          if (Number(atual.id) < Number(prox.id)) return -1;
+          if (Number(atual.id) > Number(prox.id)) return 1;
+          return 0
+        });
+      }
+      if (valorNovo == 3) {
+        this.pokemons.sort((prox, atual) => {
+          if (atual.nome < prox.nome) return 1;
+          if (atual.nome > prox.nome) return -1;
+          return 0
+        });
+      }
+      if (valorNovo == 4) {
+        this.pokemons.sort((prox, atual) => {
+          if (atual.nome.localeCompare(prox.nome)) return -1;
+          if (prox.nome.localeCompare(atual.nome)) return 1;
+          return 0
+        });
+      }
+    }
+  },
   created() {
     fetch('http://localhost:3000/pokemons')
       .then(response => {
