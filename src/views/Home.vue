@@ -102,7 +102,20 @@
           </div>
         
           <div class="col">
-            <input type="text" class="form-control" placeholder="Pesquisar pokémon">
+            <!-- <input
+              type="text"
+              class="form-control"
+              placeholder="Pesquisar pokémon na tecla enter"
+              v-model="nomePokemon"
+              @keyup.enter="filtrarPokemonsPorNome"
+            > -->
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Pesquisar pokémon watch"
+              v-model="nomePokemon2"
+              @keyup.enter="filtrarPokemonsPorNome"
+            >
           </div>
         </div>
 
@@ -110,24 +123,26 @@
           <div class="pokedex-catalogo">
 
             <!-- início listagem dinâmica -->
-            <div
-              v-for="p in pokemons"
-              :key="p.id"
-              :class="`cartao-pokemon bg-${p.tipo}`"
-              @click="analisarPokemon(p)"
-            >
-              <h1>{{ p.id }} {{ p.nome }}</h1>
-              <span>{{ p.tipo }}</span>
-              <div class="cartao-pokemon-img">
-                <transition
-                  appear1
-                  enter-active-class="animate__animated animate__fadeInDown"
-                >
-                <img :src="require(`@/assets/imgs/pokemons/${p.imagem}`)">
-                
-                </transition>
+            <transition-group name="ordenacao" >
+              <div
+                v-for="p in pokemons"
+                :key="p.id"
+                :class="`cartao-pokemon bg-${p.tipo}`"
+                @click="analisarPokemon(p)"
+              >
+                <h1>{{ p.id }} {{ p.nome }}</h1>
+                <span>{{ p.tipo }}</span>
+                <div class="cartao-pokemon-img">
+                  <transition
+                    appear1
+                    enter-active-class="animate__animated animate__fadeInDown"
+                  >
+                  <img :src="require(`@/assets/imgs/pokemons/${p.imagem}`)">
+                  
+                  </transition>
+                </div>
               </div>
-            </div>
+            </transition-group>
             <!-- fim listagem dinâmica -->
 
           </div>
@@ -148,6 +163,8 @@ export default {
     pokemon: {},
     pokemons: [],
     ordenacao: '',
+    nomePokemon: '',
+    nomePokemon2: '',
   }),
   watch: {
     ordenacao(valorNovo) {
@@ -174,11 +191,19 @@ export default {
       }
       if (valorNovo == 4) {
         this.pokemons.sort((prox, atual) => {
-          if (atual.nome.localeCompare(prox.nome)) return -1;
-          if (prox.nome.localeCompare(atual.nome)) return 1;
-          return 0
+          return atual.nome.localeCompare(prox.nome)
         });
       }
+    },
+    nomePokemon2(valorNovo) {
+      fetch(`http://localhost:3000/pokemons?nome_like=${valorNovo}`)
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          console.log(data);
+          this.pokemons = data;
+        })
     }
   },
   created() {
@@ -218,6 +243,16 @@ export default {
       if(this.pokemon.habilidades[indice]){
         this.pokemon.habilidades.splice(indice, 1)
       }
+    },
+    filtrarPokemonsPorNome() {
+      fetch(`http://localhost:3000/pokemons?nome_like=${this.nomePokemon}`)
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          console.log(data);
+          this.pokemons = data;
+        })
     }
   }
 }

@@ -191,3 +191,9 @@
 .lista-move {
   transition: all 1s;
 }
+
+/* transition group para ordenacao */
+
+.ordenacao-move {
+  transition: all 2s;
+}
